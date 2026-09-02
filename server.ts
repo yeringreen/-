@@ -70,21 +70,30 @@ app.post('/api/search', async (req, res) => {
 ]`;
 
     const aiPromise = (async () => {
-      // Try gemini-3.5-flash-lite first (fastest), fallback to gemini-3.5-flash
+      // Try gemini-2.5-flash first as requested, then fallback to current available flash models
       try {
         const response = await ai.models.generateContent({
-          model: 'gemini-3.5-flash-lite',
+          model: 'gemini-2.5-flash',
           contents: prompt,
           config: { responseMimeType: 'application/json' },
         });
         return response.text;
       } catch {
-        const response = await ai.models.generateContent({
-          model: 'gemini-3.5-flash',
-          contents: prompt,
-          config: { responseMimeType: 'application/json' },
-        });
-        return response.text;
+        try {
+          const response = await ai.models.generateContent({
+            model: 'gemini-3.5-flash-lite',
+            contents: prompt,
+            config: { responseMimeType: 'application/json' },
+          });
+          return response.text;
+        } catch {
+          const response = await ai.models.generateContent({
+            model: 'gemini-3.7-flash',
+            contents: prompt,
+            config: { responseMimeType: 'application/json' },
+          });
+          return response.text;
+        }
       }
     })();
 

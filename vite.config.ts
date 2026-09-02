@@ -81,18 +81,27 @@ function emojiSearchApiPlugin(): Plugin {
               const aiPromise = (async () => {
                 try {
                   const response = await ai.models.generateContent({
-                    model: 'gemini-3.5-flash-lite',
+                    model: 'gemini-2.5-flash',
                     contents: prompt,
                     config: { responseMimeType: 'application/json' },
                   });
                   return response.text;
                 } catch {
-                  const response = await ai.models.generateContent({
-                    model: 'gemini-3.5-flash',
-                    contents: prompt,
-                    config: { responseMimeType: 'application/json' },
-                  });
-                  return response.text;
+                  try {
+                    const response = await ai.models.generateContent({
+                      model: 'gemini-3.5-flash-lite',
+                      contents: prompt,
+                      config: { responseMimeType: 'application/json' },
+                    });
+                    return response.text;
+                  } catch {
+                    const response = await ai.models.generateContent({
+                      model: 'gemini-3.7-flash',
+                      contents: prompt,
+                      config: { responseMimeType: 'application/json' },
+                    });
+                    return response.text;
+                  }
                 }
               })();
 
