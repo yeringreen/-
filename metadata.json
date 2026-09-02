@@ -1,0 +1,6 @@
+{
+  "name": "Emoji & Symbol Finder",
+  "description": "이모지와 특수문자를 자연어나 키워드로 검색하고 5개 이내의 최적 결과 중 원하는 것을 즉시 클립보드에 복사하는 검색기",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
